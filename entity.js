@@ -36,7 +36,7 @@ class Entity {
         
         strokeWeight(1);
         fill(this.draw_color.r, this.draw_color.g, this.draw_color.b);
-        rect(this.pos.x, this.pos.y, 16, 16);
+        rect(this.pos.x, this.pos.y, 24, 24);
         if(this.icon !== null){
             image(this.icon, this.pos.x, this.pos.y, this.icon.width, this.icon.height);
         }
@@ -48,6 +48,7 @@ class Entity {
 class Lion extends Entity {
     constructor(pos_x, pos_y){
         super();
+        this.icon = null;
         super.pos = {
             x: pos_x,
             y: pos_y

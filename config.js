@@ -6,10 +6,10 @@ var config = {
     },
     behavior: {
         default: {
-            icon: "asset/entity.png"
+            icon: "assets/entity.png"
         },
         lion: {
-            icon: "asset/entity.png",
+            icon: "assets/lion.png",
             draw_color: {
                 r: 255,
                 g: 145,
@@ -23,7 +23,7 @@ var config = {
             }
         },
         hyena: {
-            icon: "asset/entity.png",
+            icon: "assets/hyena.png",
             draw_color: {
                 r: 0,
                 g: 255,

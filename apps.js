@@ -4,6 +4,7 @@ function setup() {
     frameRate(60);
 
     lion1 = new Lion(100, 100);
+    lion1.load_image();
 }
 
 function draw() {
