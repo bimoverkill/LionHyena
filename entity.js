@@ -1,24 +1,44 @@
 class Entity {
     constructor(pos_x, pos_y) {
         // Basic Property
-        this.icon = null;
+        this.icon = "assets/entity.png";
+        this.hue = {
+            r: random(255),
+            g: random(255),
+            b: random(255)
+        }
         this.pos = {
             x: pos_x,
             y: pos_y
         }
         
         // Behavior
+        this.finder = null;
         this.icon_path = config.behavior.default.icon;
-        this.draw_color = {
-            r: 255,
-            g: 0,
-            b: 255
-        }
         this.view_distance = 0;
         this.minimum_food = 0;
         this.reproduction = {
             full: 0,
             half: 0
+        }
+
+        // Initialize Path finding
+        if(config.map.pathfinding_algorithm == 'random') {
+            algo = [
+                pathfinding_algorithm.astar,
+                pathfinding_algorithm.best_first,
+                pathfinding_algorithm.breadth_first,
+                pathfinding_algorithm.dijkstra,
+                pathfinding_algorithm.jumppoint,
+                pathfinding_algorithm.orthogonal,
+                pathfinding_algorithm.biastar,
+                pathfinding_algorithm.bibestfirst,
+                pathfinding_algorithm.bibreadthfirst,
+                pathfinding_algorithm.bidijkstra
+            ]
+            this.pathfinder = (random(algo))();
+        } else {
+            this.pathfinder = (config.map.default_pathfinding_algorithm)();
         }
     }
 
@@ -35,30 +55,12 @@ class Entity {
         push();
         
         strokeWeight(1);
-        fill(this.draw_color.r, this.draw_color.g, this.draw_color.b);
         rect(this.pos.x, this.pos.y, 24, 24);
         if(this.icon !== null){
             image(this.icon, this.pos.x, this.pos.y, this.icon.width, this.icon.height);
         }
+        fill(this.hue.r, this.hue.g, this.hue.b, 0.2);
 
         pop();
-    }
-}
-
-class Lion extends Entity {
-    constructor(pos_x, pos_y){
-        super();
-        this.icon = null;
-        super.pos = {
-            x: pos_x,
-            y: pos_y
-        }
-
-        // Behavior
-        this.icon_path = config.behavior.lion.icon;
-        super.draw_color = config.behavior.lion.draw_color;
-        super.view_distance = config.behavior.lion.view_distance;
-        super.minimum_food = config.behavior.lion.minimum_food;
-        super.reproduction = config.behavior.lion.reproduction;
     }
 }
