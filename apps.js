@@ -1,13 +1,12 @@
+let lion1;
 function setup() {
     createCanvas(windowWidth, windowHeight);
     frameRate(60);
+
+    lion1 = new Lion(100, 100);
 }
 
 function draw() {
     background(255);
-
-    
-    fill(0, 0, 255);
-    noStroke();
-    ellipse(mouseX, mouseY, 50, 50);
+    lion1.draw();
 }
