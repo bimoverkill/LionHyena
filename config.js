@@ -10,6 +10,7 @@ var pathfinding_algorithm = {
     bibreadthfirst: PF.BiBreadthFirstFinder,
     bidijkstra: PF.BiDijkstraFinder
 }
+
 var config = {
     food_generation: {
         meat_per_day: 8,

@@ -1,3 +1,23 @@
+class Cell {
+    constructor(pos, size=24) {
+        this.pos = pos
+        this.size = 24
+        this.objects = [];
+    }
+
+    addObject(object) {
+        this.objects.push(object);
+    }
+
+    draw() {
+        push();
+        stroke(255, 255, 255, 0.1);
+        fill(255, 0);
+        rect(this.pos.x, this.pos.y, this.size, this.size);
+        pop();
+    }
+}
+
 class Arena {
     constructor(map_width, map_height, cell_size){
         this.map_size = {

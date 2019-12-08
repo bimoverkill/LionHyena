@@ -1,7 +1,7 @@
 class Entity {
     constructor(pos_x, pos_y) {
         // Basic Property
-        this.icon = "assets/entity.png";
+        this.icon = "assets/default_entity.png";
         this.hue = {
             r: random(255),
             g: random(255),
@@ -36,7 +36,7 @@ class Entity {
                 pathfinding_algorithm.bibreadthfirst,
                 pathfinding_algorithm.bidijkstra
             ]
-            this.pathfinder = (random(algo))();
+            this.pathfinder = new (random(algo))();
         } else {
             this.pathfinder = (config.map.default_pathfinding_algorithm)();
         }
