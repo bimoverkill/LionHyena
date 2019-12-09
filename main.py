@@ -3,10 +3,19 @@ from lionhyena.game.field import Field
 from lionhyena.simulation.arena import Arena
 from lionhyena.engine import Engine
 
-engine = Engine()
+from lionhyena.config import CONFIG
 
-arena = Arena()
-field = Field(arena, engine)
+if CONFIG.GRAPHICS:
+    engine = Engine()
 
-engine.initialize_game(field)
-engine.run()
+    arena = Arena()
+    field = Field(arena, engine)
+
+    engine.initialize_game(field)
+    engine.run()
+else:
+    arena = Arena()
+
+    running = False
+    while not running:
+        running = arena.step()

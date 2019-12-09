@@ -1,4 +1,5 @@
 class CONFIG:
+    GRAPHICS = False
     APP_NAME = "Lion Hyena"
     SCREEN_SIZE = (920, 920)                          # w640 x h640 Pixel
     MAX_FPS = 240
@@ -21,11 +22,11 @@ class CONFIG:
             "Starvation, an caught a Malnutritions"
         ]
     class SIMULATION:
-        ARENA_SIZE = (920, 920)                       # PIXEL -> xw100 x h100 Pixel
+        ARENA_SIZE = (920, 920)                         # PIXEL -> xw100 x h100 Pixel
         MAX_DAYS = 30                                   # DAY -> Number of iteration to simulate
 
         INITIAL_MEATS = 8                               # PIECE -> Number Of Meats that will spawn initially at day 0
-        MEAT_CHANGE_PER_DAY = 0                        # PIECE -> Number of food to add or
+        MEAT_CHANGE_PER_DAY = 0                         # PIECE -> Number of food to add or
                                                         #          remove each day / iteration
         MEAT_FOOD_POINTS = 2                            # UNIT -> Food Points per Meat
 

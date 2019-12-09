@@ -1,6 +1,7 @@
 from typing import List
 
 from pathfinding.core.grid import Grid
+from pathfinding.finder.a_star import AStarFinder
 import pygame
 
 from ..config import CONFIG
@@ -9,10 +10,19 @@ from ..engine import Engine
 
 
 class AnimatedEntity:
-    def __init__(self, entity):
+    def __init__(self, entity, parent_field):
+        self.parent_field = parent_field
         self.entity = entity
         self.pos = self.entity.pos
+        self.type = self.entity.type
 
+        self.food_pos = None
+        self.move_queue = []
+
+        self.finder = AStarFinder()
+
+    def find_route(self):
+        ...
 
 class Field:
     def __init__(self, arena: Arena, engine: Engine):
@@ -61,7 +71,7 @@ class Field:
 
     def update_session(self):
         self.current_session["foods"] = [i for i in self.arena.foods]
-        self.current_session["entities"] = [i for i in self.arena.entities]
+        self.current_session["entities"] = [AnimatedEntity(i, self) for i in self.arena.entities]
 
     def draw(self):
         if self._steps[0]:  # nil

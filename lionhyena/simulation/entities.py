@@ -41,10 +41,11 @@ class Entity(Object):
         self.simulation_config = CONFIG.SIMULATION.HAWK if self.type == "HWK" else CONFIG.SIMULATION.DOVE
 
     def goto_food(self):
-        self.pos = (
-            self.target_food.pos[0] + randint(-5, 5),
-            self.target_food.pos[1] + randint(-5, 5),
-        )
+        if self.target_food is not None:
+            self.pos = (
+                self.target_food.pos[0] + randint(-10, 10),
+                self.target_food.pos[1] + randint(-10, 10),
+            )
 
     def goto_home(self):
         choose = [
