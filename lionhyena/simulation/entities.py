@@ -40,6 +40,22 @@ class Entity(Object):
 
         self.simulation_config = CONFIG.SIMULATION.HAWK if self.type == "HWK" else CONFIG.SIMULATION.DOVE
 
+    def goto_food(self):
+        self.pos = (
+            self.target_food.pos[0] + randint(-5, 5),
+            self.target_food.pos[1] + randint(-5, 5),
+        )
+
+    def goto_home(self):
+        choose = [
+            (0, randint(0, CONFIG.SIMULATION.ARENA_SIZE[1])) ,                                  # left_side
+            (CONFIG.SIMULATION.ARENA_SIZE[0], randint(0, CONFIG.SIMULATION.ARENA_SIZE[1])),     # right side
+            (randint(0, CONFIG.SIMULATION.ARENA_SIZE[0]), 0),                                   # top side
+            (randint(0, CONFIG.SIMULATION.ARENA_SIZE[0]), CONFIG.SIMULATION.ARENA_SIZE[1])      # bottom
+        ][randint(0, 3)]
+
+        self.pos = choose
+
     def wake_up(self):
         self.hunger = 0
         self.is_alive = True

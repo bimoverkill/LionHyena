@@ -8,6 +8,12 @@ from ..simulation.arena import Arena
 from ..engine import Engine
 
 
+class AnimatedEntity:
+    def __init__(self, entity):
+        self.entity = entity
+        self.pos = self.entity.pos
+
+
 class Field:
     def __init__(self, arena: Arena, engine: Engine):
         self.arena = arena
@@ -37,25 +43,25 @@ class Field:
         }
 
     def step(self):
-        self.draw()
-        if self._mini_steps <= 240:
-            self._mini_steps += 1
-        else:
-            self._steps[self._current_steps] = True
+        if self.draw():
+            if self._mini_steps <= 240:
+                self._mini_steps += 1
+            else:
+                self._steps[self._current_steps] = True
 
-            self._current_steps += 1
-            self.arena.step()
-            self.update_session()
+                self._current_steps += 1
+                self.arena.step()
+                self.update_session()
 
-            if self._current_steps >= len(self._steps) - 1:
-                self._steps = [False for _ in range(8)]
-                self._current_steps = 0
+                if self._current_steps >= len(self._steps) - 1:
+                    self._steps = [False for _ in range(9)]
+                    self._current_steps = 0
 
-            self._mini_steps = 0
+                self._mini_steps = 0
 
     def update_session(self):
-        self.current_session["foods"] = [i.pos for i in self.arena.foods]
-        self.current_session["entities"] = [i.pos for i in self.arena.entities]
+        self.current_session["foods"] = [i for i in self.arena.foods]
+        self.current_session["entities"] = [i for i in self.arena.entities]
 
     def draw(self):
         if self._steps[0]:  # nil
@@ -63,12 +69,14 @@ class Field:
 
         if self._steps[1]:  # generate_foods
             for i in self.current_session["foods"]:
-                pygame.draw.circle(self.engine.surface, (255, 0, 0), i, 5)
+                pygame.draw.circle(self.engine.surface, (255, 0, 0), i.pos, 5)
 
         if self._steps[2]:  # wakeup
             for i in self.current_session["entities"]:
-                pygame.draw.circle(self.engine.surface, (255, 255, 0), i, 5)
-            ...
+                if i.type == "HWK":
+                    pygame.draw.circle(self.engine.surface, (255, 255, 0), i.pos, 5)
+                elif i.type == "DOV":
+                    pygame.draw.circle(self.engine.surface, (125, 125, 0), i.pos, 5)
 
         if self._steps[3]:  # find_food
             ...
@@ -87,4 +95,6 @@ class Field:
 
         if self._steps[8]:  # sleep
             ...
+
+        return True
 

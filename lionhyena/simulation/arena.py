@@ -108,7 +108,11 @@ class Arena:
             c += 1
 
     def moving_to_food(self):
-        ...
+        debug(f"        telling entities to go to food ! {len(self.entities)}")
+        c = 0
+        for i in self.entities:
+            i.goto_food()
+            c += 1
 
     def eating(self):
         debug(f"        Ordering Entities to Eat {len(self.entities)}")
@@ -126,7 +130,11 @@ class Arena:
             c += 1
 
     def moving_to_home(self):
-        ...
+        debug(f"        telling entities to go home ! {len(self.entities)}")
+        c = 0
+        for i in self.entities:
+            i.goto_home()
+            c += 1
 
     def sleep(self):
         debug(f"        letting Entities to sleep {len(self.entities)}")
