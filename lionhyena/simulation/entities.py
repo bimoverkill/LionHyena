@@ -2,6 +2,7 @@ from typing import List, Union
 from random import randint
 
 from ..config import CONFIG
+from .utilities import debug
 
 
 class Object:
@@ -12,10 +13,20 @@ class Object:
         self.parent_arena = init_arena
 
     def __repr__(self):
-        return f"<{self.type}-{self.id}>"
+        if self.type == "HWK":
+            return f"SINGA-{self.id}"
+        elif self.type == "DOV":
+            return f"HYENA-{self.id}"
+        elif self.type == "FOD":
+            return f"DAGING-{self.id}"
 
     def __str__(self):
-        return f"<{self.type}-{self.id}>"
+        if self.type == "HWK":
+            return f"SINGA-{self.id}"
+        elif self.type == "DOV":
+            return f"HYENA-{self.id}"
+        elif self.type == "FOD":
+            return f"DAGING-{self.id}"
 
 
 class Entity(Object):
@@ -37,13 +48,13 @@ class Entity(Object):
 
     def find_food(self):
         # check if there any food available
-        # print(f"            {self} is hunting")
+        # debug(f"            {self} is hunting")
         if not (True in [i.is_available() for i in self.parent_arena.foods]):
-            print(f"            {self} don't get anything to eat !")
+            debug(f"            {self} don't get anything to eat !", is_verbose=True)
             self.is_alive = False
             return
 
-        # print(f"            {self} have chance to get food !")
+        # debug(f"            {self} have chance to get food !")
         while True:
             for i in range(10):
                 probability = 0 <= (randint(0, 10000) / 100) <= (100 / len(self.parent_arena.foods))
@@ -55,7 +66,7 @@ class Entity(Object):
                 else:
                     self.target_food = None
                     continue
-        print(f"            {self} got {self.target_food}!")
+        debug(f"            {self} got {self.target_food}!", is_verbose=True)
 
         self.target_food.claim(self.id)
 
@@ -85,13 +96,13 @@ class Entity(Object):
     def sleep(self):  # All Next Day Calculation and Chances calculated here
         # check if there any chance to survive
         # if self.hunger <= self.simulation_config.SURVIVAL_HUNGER_THRESHOLD:
-        #     print(f"            {self} is starving ! {self.hunger}")
+        #     debug(f"            {self} is starving ! {self.hunger}")
         #     self.is_alive = False
         #     return
         # else:
-        #     print(f"            {self} eaten {self.hunger} food today")
+        #     debug(f"            {self} eaten {self.hunger} food today")
 
-        print(f"            {self} eaten {self.hunger} food today")
+        debug(f"            {self} eaten {self.hunger} food today", is_verbose=True)
         # calculate survivability
         if self.type == "HWK":
             chance = randint(1, 100000) / 1000
@@ -101,7 +112,7 @@ class Entity(Object):
                 self.is_alive = 0 < chance <= roll   # Chance 75%
             elif self.hunger < 1.0:
                 self.is_alive = False
-                print(f"            {self} has died from starvation !")
+                debug(f"            {self} has died from starvation !", is_verbose=True)
                 return
             elif self.hunger >= 1.5:
                 self.is_alive = True
@@ -116,7 +127,7 @@ class Entity(Object):
                 self.is_alive = 0 < chance <= roll   # Chance 75%
             if self.hunger < 0.5:
                 self.is_alive = False
-                print(f"            {self} has died from starvation !")
+                debug(f"            {self} has died from starvation !", is_verbose=True)
                 return
             elif self.hunger >= 1.0:
                 self.is_alive = True
@@ -126,10 +137,10 @@ class Entity(Object):
 
         if not self.is_alive:
 
-            print(f"            {self} has died from {CONFIG.COMETICS.DIGESTIVE_PROBLEMS[randint(0, len(CONFIG.COMETICS.DIGESTIVE_PROBLEMS)-1)]}")
+            debug(f"            {self} has died from {CONFIG.COMETICS.DIGESTIVE_PROBLEMS[randint(0, len(CONFIG.COMETICS.DIGESTIVE_PROBLEMS)-1)]}", is_verbose=True)
             return
         else:
-            print(f"            {self} stomach is full and seems healty !")
+            debug(f"            {self} stomach is full and seems healty !", is_verbose=True)
 
         # surv_chance = self.hunger * self.simulation_config.SURVIVAL_CHANCES_PER_ONE_FOOD
         # surv_chance = round(surv_chance * 1000000) / 1000000  # pembulatan ke 6 decimal
@@ -137,12 +148,12 @@ class Entity(Object):
         # self.is_alive = 0 <= (randint(1, 100000000) / 1000000) <= surv_chance
         # if not self.is_alive:
         #     # if not alive, skip reproduce calculation
-        #     print(f"            {self} is dying !")
+        #     debug(f"            {self} is dying !")
         #     return
 
         # check if there any chance to reproduce
         if self.hunger < self.simulation_config.REPRODUCE_HUNGER_THRESHOLD:
-            print(f"            {self} is hungry, and does not have enouh energy to reproduce !")
+            debug(f"            {self} is hungry, and does not have enouh energy to reproduce !", is_verbose=True)
             self.will_reproduce = False
             return
         else:
@@ -153,9 +164,9 @@ class Entity(Object):
 
             self.will_reproduce = 0 <= chance <= repr_chance
             if self.will_reproduce:
-                print(f"            {self} just finished having fun ! and he got lucky to have a kid !")
+                debug(f"            {self} just finished having fun ! and he got lucky to have a kid !", is_verbose=True)
             else:
-                print(f"            {self} just finished having fun ! but failed to have any kid !")
+                debug(f"            {self} just finished having fun ! but failed to have any kid !", is_verbose=True)
 
 
 class Food(Object):
@@ -179,7 +190,7 @@ class Food(Object):
 
     def give_hunger_point(self):
         if len(self._eater) == 1:
-            print(f"            {self.parent_arena.order(self._eater[0])} is eating {self} by itself :(")
+            debug(f"            {self.parent_arena.order(self._eater[0])} is eating {self} by itself :(", is_verbose=True)
 
             portion = 0
             if self.parent_arena.get_object(self._eater[0]).type == "HWK":
@@ -195,7 +206,7 @@ class Food(Object):
         elif len(self._eater) < 1:
             return
         elif len(self._eater) > 1:
-            print(f"            {self.parent_arena.order(self._eater[0])} is sharing {self} with {self.parent_arena.order(self._eater[1])}")
+            debug(f"            {self.parent_arena.order(self._eater[0])} is sharing {self} with {self.parent_arena.order(self._eater[1])}", is_verbose=True)
             fe: Entity = self.parent_arena.get_object(self._eater[0])  # first eater
             se: Entity = self.parent_arena.get_object(self._eater[1])  # second eater
 

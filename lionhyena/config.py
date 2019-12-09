@@ -1,30 +1,31 @@
 class CONFIG:
     APP_NAME = "Lion Hyena"
-    SCREEN_SIZE = (1024, 1024)                          # w640 x h640 Pixel
-    MAX_FPS = 120
+    SCREEN_SIZE = (920, 920)                          # w640 x h640 Pixel
+    MAX_FPS = 240
     DEBUG = True
+    VERBOSE = True
 
     class GAME:
         CELL_SIZE = (24, 24)                            # PIXEL -> w24 x h24 Pixel
 
     class COMETICS:
         DIGESTIVE_PROBLEMS = [
-            "Marasmus",
-            "Rickets",
-            "Tetany",
-            "Goiter",
-            "Anemia",
-            "Beriberi",
-            "Pellagra",
-            "Scurvy",
-            "Malnutritions"
+            "Starvation, an caught a Marasmus",
+            "Starvation, an caught a Rickets",
+            "Starvation, an caught a Tetany",
+            "Starvation, an caught a Goiter",
+            "Starvation, an caught a Anemia",
+            "Starvation, an caught a Beriberi",
+            "Starvation, an caught a Pellagra",
+            "Starvation, an caught a Scurvy",
+            "Starvation, an caught a Malnutritions"
         ]
     class SIMULATION:
-        ARENA_SIZE = (1024, 1024)                       # PIXEL -> xw100 x h100 Pixel
-        MAX_DAYS = 50                                  # DAY -> Number of iteration to simulate
+        ARENA_SIZE = (920, 920)                       # PIXEL -> xw100 x h100 Pixel
+        MAX_DAYS = 30                                   # DAY -> Number of iteration to simulate
 
-        INITIAL_MEATS = 8                              # PIECE -> Number Of Meats that will spawn initially at day 0
-        MEAT_CHANGE_PER_DAY = +1                         # PIECE -> Number of food to add or
+        INITIAL_MEATS = 8                               # PIECE -> Number Of Meats that will spawn initially at day 0
+        MEAT_CHANGE_PER_DAY = 0                        # PIECE -> Number of food to add or
                                                         #          remove each day / iteration
         MEAT_FOOD_POINTS = 2                            # UNIT -> Food Points per Meat
 

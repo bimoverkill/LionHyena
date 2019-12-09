@@ -1,4 +1,12 @@
-from lionhyena.simulation.arena import Arena
+from lionhyena.game.field import Field
 
-a = Arena()
-a.start_match()
+from lionhyena.simulation.arena import Arena
+from lionhyena.engine import Engine
+
+engine = Engine()
+
+arena = Arena()
+field = Field(arena, engine)
+
+engine.initialize_game(field)
+engine.run()
